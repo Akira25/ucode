@@ -1,0 +1,139 @@
+name: Build fedora rpm package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ucode/
+
+      - name: Get Fedora version
+        run: echo "FEDORA_VERSION_SHORT=f$(grep VERSION_ID /etc/os-release | cut -d'=' -f2)" >> $GITHUB_ENV
+
+      - name: Install dependencies one
+        run: |
+          sudo dnf -y install git
+
+      - name: Render version in .spec file
+        run: |
+          cd ucode/
+          export GITVERSION=$(git describe --long --tags)
+          export DEBVERSION=${GITVERSION#v}
+          echo "$GITVERSION"
+          echo "$DEBVERSION"
+          cd ..
+          echo "Name:           ucode" > ucode.spec
+          # echo "Version:        ${GITVERSION#v}" >> ucode.spec
+          echo "Version:        0.0.20231102" >> ucode.spec
+
+      - name: Install dependencies
+        run: |
+          sudo dnf -y install fedora-packager fedora-review
+
+      - name: Save rest of .spec file
+        run: |
+          OUTFILE="ucode.spec"
+          echo 'Release:        %autorelease' >> $OUTFILE
+          echo 'Summary:        JavaScript-like language with optional templating' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo 'License:        ISC' >> $OUTFILE
+          echo 'URL:            https://ucode.mein.io/' >> $OUTFILE
+          echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          # echo 'Source:         https://github.com/Akira25/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo 'BuildRequires:  gcc' >> $OUTFILE
+          echo 'BuildRequires:  make' >> $OUTFILE
+          echo 'BuildRequires:  cmake' >> $OUTFILE
+          echo 'BuildRequires:  json-c-devel' >> $OUTFILE
+          echo 'BuildRequires:  texinfo' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%description' >> $OUTFILE
+          echo 'The ucode language is a small, general-purpose scripting language that' >> $OUTFILE
+          echo 'resembles ECMAScript syntax. It can be used as a standalone interpreter or' >> $OUTFILE
+          echo 'embedded into host applications. Ucode supports template mode with control flow' >> $OUTFILE
+          echo 'and expression logic statements embedded in Jinja-like markup blocks.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo 'Initially intended as a template processor, ucode evolved into a versatile' >> $OUTFILE
+          echo 'scripting language for various system scripting tasks. Its design goals include' >> $OUTFILE
+          echo 'easy integration with C applications, efficient handling of JSON data and' >> $OUTFILE
+          echo 'complex data structures, support for OpenWrt'\''s ubus message bus system, and a' >> $OUTFILE
+          echo 'comprehensive set of built-in functions inspired by Perl 5.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%package    -n libucode' >> $OUTFILE
+          echo 'Summary:    Shared library files for ucode' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%description -n libucode' >> $OUTFILE
+          echo 'This package contains the compiled shared libraries for ucode.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%package    -n libucode-devel' >> $OUTFILE
+          echo 'Summary:    Development files for ucode' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%description -n libucode-devel' >> $OUTFILE
+          echo 'This package contains libraries and header files for developing applications' >> $OUTFILE
+          echo 'that use ucode.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%prep' >> $OUTFILE
+          echo '%autosetup' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%build' >> $OUTFILE
+          echo '%cmake -DUBUS_SUPPORT=OFF \' >> $OUTFILE
+          echo '    -DUCI_SUPPORT=OFF \' >> $OUTFILE
+          echo '    -DULOOP_SUPPORT=OFF \' >> $OUTFILE
+          echo '    -DCMAKE_BUILD_TYPE=Release' >> $OUTFILE
+          echo '%cmake_build' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%install' >> $OUTFILE
+          echo '%cmake_install' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%files' >> $OUTFILE
+          echo '%{_bindir}/ucc' >> $OUTFILE
+          echo '%{_bindir}/ucode' >> $OUTFILE
+          echo '%{_bindir}/utpl' >> $OUTFILE
+          echo '%doc README.md' >> $OUTFILE
+          echo '%license LICENSE' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%files  -n libucode' >> $OUTFILE
+          echo '%{_prefix}/lib/libucode.so' >> $OUTFILE
+          echo '%{_prefix}/lib/libucode.so.0' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/debug.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/fs.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/log.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/math.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/resolv.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/struct.so' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%files  -n libucode-devel' >> $OUTFILE
+          echo '%{_includedir}/ucode/chunk.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/compiler.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/lexer.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/lib.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/module.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/platform.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/program.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/source.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/types.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/util.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/vallist.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/vm.h' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%changelog' >> $OUTFILE
+          echo '%autochangelog' >> $OUTFILE
+
+      - name: Build package
+        run: |
+          spectool -g ucode.spec
+          fedpkg --release ${{ env.FEDORA_VERSION_SHORT }} mockbuild
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: rpm
+          path: '*ucode*.spec'
+          # path: '*ucode*.rpm'
