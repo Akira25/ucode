@@ -14,21 +14,27 @@ jobs:
         with:
           path: ucode/
 
-      - name: Install dependencies
-        run: |
-          sudo dnf -y install fedora-packager fedora-review
-
       - name: Get Fedora version
         run: echo "FEDORA_VERSION_SHORT=f$(grep VERSION_ID /etc/os-release | cut -d'=' -f2)" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          sudo dnf -y install git
 
       - name: Render version in .spec file
         run: |
           cd ucode/
           export GITVERSION=$(git describe --long --tags)
           export DEBVERSION=${GITVERSION#v}
+          echo "$GITVERSION"
+          echo "$DEBVERSION"
           cd ..
           echo "Name:           ucode" > ucode.spec
           echo "Version:        ${GITVERSION#v}" >> ucode.spec
+
+      - name: Install dependencies
+        run: |
+          sudo dnf -y install fedora-packager fedora-review
 
       - name: Save rest of .spec file
         run: |
@@ -38,7 +44,8 @@ jobs:
           echo ' ' >> $OUTFILE
           echo 'License:        ISC' >> $OUTFILE
           echo 'URL:            https://ucode.mein.io/' >> $OUTFILE
-          echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          # echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          echo 'Source:         https://github.com/Akira25/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
           echo ' ' >> $OUTFILE
           echo 'BuildRequires:  gcc' >> $OUTFILE
           echo 'BuildRequires:  make' >> $OUTFILE
