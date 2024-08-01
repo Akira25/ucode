@@ -25,7 +25,7 @@ jobs:
         id: render_spec_file
         uses: chuhlomin/render-template@v1
         with:
-          template: ucode.template.spec
+          template: .github/workflows/ucode.template.spec
           vars: |
             version: ${{ env.GITVERSION }}
 
