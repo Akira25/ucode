@@ -36,91 +36,90 @@ jobs:
 
       - name: Save rest of .spec file
         run: |
-          echo 'Release:        %autorelease
-          Summary:        JavaScript-like language with optional templating
-
-          License:        ISC
-          URL:            https://ucode.mein.io/
-          Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz
-
-          BuildRequires:  gcc
-          BuildRequires:  make
-          BuildRequires:  cmake
-          BuildRequires:  json-c-devel
-          BuildRequires:  texinfo
-
-          %description
-          The ucode language is a small, general-purpose scripting language that
-          resembles ECMAScript syntax. It can be used as a standalone interpreter or
-          embedded into host applications. Ucode supports template mode with control flow
-          and expression logic statements embedded in Jinja-like markup blocks.
-
-          Initially intended as a template processor, ucode evolved into a versatile
-          scripting language for various system scripting tasks. Its design goals include
-          easy integration with C applications, efficient handling of JSON data and
-          complex data structures, support for OpenWrt's ubus message bus system, and a
-          comprehensive set of built-in functions inspired by Perl 5.
-
-          %package    -n libucode
-          Summary:    Shared library files for ucode
-
-          %description -n libucode
-          This package contains the compiled shared libraries for ucode.
-
-          %package    -n libucode-devel
-          Summary:    Development files for ucode
-
-          %description -n libucode-devel
-          This package contains libraries and header files for developing applications
-          that use ucode.
-
-
-          %prep
-          %autosetup
-
-          %build
-          %cmake -DUBUS_SUPPORT=OFF \
-              -DUCI_SUPPORT=OFF \
-              -DULOOP_SUPPORT=OFF \
-              -DCMAKE_BUILD_TYPE=Release
-          %cmake_build
-
-          %install
-          %cmake_install
-
-          %files
-          %{_bindir}/ucc
-          %{_bindir}/ucode
-          %{_bindir}/utpl
-          %doc README.md
-          %license LICENSE
-
-          %files  -n libucode
-          %{_prefix}/lib/libucode.so
-          %{_prefix}/lib/libucode.so.0
-          %{_prefix}/lib/ucode/debug.so
-          %{_prefix}/lib/ucode/fs.so
-          %{_prefix}/lib/ucode/log.so
-          %{_prefix}/lib/ucode/math.so
-          %{_prefix}/lib/ucode/resolv.so
-          %{_prefix}/lib/ucode/struct.so
-
-          %files  -n libucode-devel
-          %{_includedir}/ucode/chunk.h
-          %{_includedir}/ucode/compiler.h
-          %{_includedir}/ucode/lexer.h
-          %{_includedir}/ucode/lib.h
-          %{_includedir}/ucode/module.h
-          %{_includedir}/ucode/platform.h
-          %{_includedir}/ucode/program.h
-          %{_includedir}/ucode/source.h
-          %{_includedir}/ucode/types.h
-          %{_includedir}/ucode/util.h
-          %{_includedir}/ucode/vallist.h
-          %{_includedir}/ucode/vm.h
-
-          %changelog
-          %autochangelog' >> ucode.spec
+          echo 'Release:        %autorelease' >> ucode.spec
+          echo 'Summary:        JavaScript-like language with optional templating' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo 'License:        ISC' >> ucode.spec
+          echo 'URL:            https://ucode.mein.io/' >> ucode.spec
+          echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo 'BuildRequires:  gcc' >> ucode.spec
+          echo 'BuildRequires:  make' >> ucode.spec
+          echo 'BuildRequires:  cmake' >> ucode.spec
+          echo 'BuildRequires:  json-c-devel' >> ucode.spec
+          echo 'BuildRequires:  texinfo' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%description' >> ucode.spec
+          echo 'The ucode language is a small, general-purpose scripting language that' >> ucode.spec
+          echo 'resembles ECMAScript syntax. It can be used as a standalone interpreter or' >> ucode.spec
+          echo 'embedded into host applications. Ucode supports template mode with control flow' >> ucode.spec
+          echo 'and expression logic statements embedded in Jinja-like markup blocks.' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo 'Initially intended as a template processor, ucode evolved into a versatile' >> ucode.spec
+          echo 'scripting language for various system scripting tasks. Its design goals include' >> ucode.spec
+          echo 'easy integration with C applications, efficient handling of JSON data and' >> ucode.spec
+          echo 'complex data structures, support for OpenWrt's ubus message bus system, and a' >> ucode.spec
+          echo 'comprehensive set of built-in functions inspired by Perl 5.' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%package    -n libucode' >> ucode.spec
+          echo 'Summary:    Shared library files for ucode' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%description -n libucode' >> ucode.spec
+          echo 'This package contains the compiled shared libraries for ucode.' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%package    -n libucode-devel' >> ucode.spec
+          echo 'Summary:    Development files for ucode' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%description -n libucode-devel' >> ucode.spec
+          echo 'This package contains libraries and header files for developing applications' >> ucode.spec
+          echo 'that use ucode.' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%prep' >> ucode.spec
+          echo '%autosetup' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%build' >> ucode.spec
+          echo '%cmake -DUBUS_SUPPORT=OFF \' >> ucode.spec
+          echo '    -DUCI_SUPPORT=OFF \' >> ucode.spec
+          echo '    -DULOOP_SUPPORT=OFF \' >> ucode.spec
+          echo '    -DCMAKE_BUILD_TYPE=Release' >> ucode.spec
+          echo '%cmake_build' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%install' >> ucode.spec
+          echo '%cmake_install' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%files' >> ucode.spec
+          echo '%{_bindir}/ucc' >> ucode.spec
+          echo '%{_bindir}/ucode' >> ucode.spec
+          echo '%{_bindir}/utpl' >> ucode.spec
+          echo '%doc README.md' >> ucode.spec
+          echo '%license LICENSE' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%files  -n libucode' >> ucode.spec
+          echo '%{_prefix}/lib/libucode.so' >> ucode.spec
+          echo '%{_prefix}/lib/libucode.so.0' >> ucode.spec
+          echo '%{_prefix}/lib/ucode/debug.so' >> ucode.spec
+          echo '%{_prefix}/lib/ucode/fs.so' >> ucode.spec
+          echo '%{_prefix}/lib/ucode/log.so' >> ucode.spec
+          echo '%{_prefix}/lib/ucode/math.so' >> ucode.spec
+          echo '%{_prefix}/lib/ucode/resolv.so' >> ucode.spec
+          echo '%{_prefix}/lib/ucode/struct.so' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%files  -n libucode-devel' >> ucode.spec
+          echo '%{_includedir}/ucode/chunk.h' >> ucode.spec
+          echo '%{_includedir}/ucode/compiler.h' >> ucode.spec
+          echo '%{_includedir}/ucode/lexer.h' >> ucode.spec
+          echo '%{_includedir}/ucode/lib.h' >> ucode.spec
+          echo '%{_includedir}/ucode/module.h' >> ucode.spec
+          echo '%{_includedir}/ucode/platform.h' >> ucode.spec
+          echo '%{_includedir}/ucode/program.h' >> ucode.spec
+          echo '%{_includedir}/ucode/source.h' >> ucode.spec
+          echo '%{_includedir}/ucode/types.h' >> ucode.spec
+          echo '%{_includedir}/ucode/util.h' >> ucode.spec
+          echo '%{_includedir}/ucode/vallist.h' >> ucode.spec
+          echo '%{_includedir}/ucode/vm.h' >> ucode.spec
+          echo ' ' >> ucode.spec
+          echo '%changelog' >> ucode.spec
+          echo '%autochangelog' >> ucode.spec' >> ucode.spec
 
       - name: Build package
         run: |
