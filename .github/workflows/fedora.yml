@@ -29,6 +29,12 @@ jobs:
       #     vars: |
       #       version: ${{ env.GITVERSION }}
 
+      - name: Show env vars
+        env:
+          VARS: ${{ toJson(env) }}
+        run: |
+          echo "$VARS"
+
       - name: Render version in .spec file
         run: |
           echo "Name:           ucode" > ucode.spec
