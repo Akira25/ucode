@@ -16,7 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo dnf install fedora-packager fedora-review
+          sudo dnf -y install fedora-packager fedora-review
 
       - name: Get Fedora version
         run: echo "FEDORA_VERSION_SHORT=f$(grep VERSION_ID /etc/os-release | cut -d'=' -f2)" >> $GITHUB_ENV
