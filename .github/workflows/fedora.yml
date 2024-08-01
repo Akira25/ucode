@@ -131,4 +131,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: rpm
-          path: '*ucode*.rpm'
+          path: '*ucode*.spec'
+          # path: '*ucode*.rpm'
