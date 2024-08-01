@@ -1,0 +1,47 @@
+name: Build .deb package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ucode/
+
+      - name: Install dependencies
+        run: |
+          sudo dnf install fedora-packager fedora-review
+
+      - name: Get Fedora version
+        run: echo "FEDORA_VERSION_SHORT=f$(grep VERSION_ID /etc/os-release | cut -d'=' -f2)" >> $GITHUB_ENV
+
+      - name: Render .spec file
+        id: render_spec_file
+        uses: chuhlomin/render-template@v1
+        with:
+          template: ucode.template.spec
+          vars: |
+            image: ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+            deployment: ${{ env.DEPLOYMENT_NAME }}
+            app: nginx
+
+      - name: Save .spec file
+        run: |
+          echo "${{ steps.render_spec_file.outputs.result }}" > ucode.spec
+
+      - name: Build package
+        run: |
+          spectool -g ucode.spec
+          fedpkg --release ${{ env.FEDORA_VERSION_SHORT }} mockbuild
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: rpm
+          path: '*ucode*.rpm'
