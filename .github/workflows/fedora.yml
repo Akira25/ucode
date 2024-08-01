@@ -119,7 +119,7 @@ jobs:
           echo '%{_includedir}/ucode/vm.h' >> ucode.spec
           echo ' ' >> ucode.spec
           echo '%changelog' >> ucode.spec
-          echo '%autochangelog' >> ucode.spec' >> ucode.spec
+          echo '%autochangelog' >> ucode.spec
 
       - name: Build package
         run: |
