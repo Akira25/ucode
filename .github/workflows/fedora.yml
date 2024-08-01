@@ -30,7 +30,8 @@ jobs:
           echo "$DEBVERSION"
           cd ..
           echo "Name:           ucode" > ucode.spec
-          echo "Version:        ${GITVERSION#v}" >> ucode.spec
+          # echo "Version:        ${GITVERSION#v}" >> ucode.spec
+          echo "Version:        0.0.20231102" >> ucode.spec
 
       - name: Install dependencies
         run: |
@@ -44,8 +45,8 @@ jobs:
           echo ' ' >> $OUTFILE
           echo 'License:        ISC' >> $OUTFILE
           echo 'URL:            https://ucode.mein.io/' >> $OUTFILE
-          # echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
-          echo 'Source:         https://github.com/Akira25/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          # echo 'Source:         https://github.com/Akira25/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
           echo ' ' >> $OUTFILE
           echo 'BuildRequires:  gcc' >> $OUTFILE
           echo 'BuildRequires:  make' >> $OUTFILE
