@@ -27,9 +27,7 @@ jobs:
         with:
           template: ucode.template.spec
           vars: |
-            image: ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-            deployment: ${{ env.DEPLOYMENT_NAME }}
-            app: nginx
+            version: ${{ env.GITVERSION }}
 
       - name: Save .spec file
         run: |
