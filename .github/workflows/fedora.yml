@@ -36,90 +36,91 @@ jobs:
 
       - name: Save rest of .spec file
         run: |
-          echo 'Release:        %autorelease' >> ucode.spec
-          echo 'Summary:        JavaScript-like language with optional templating' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo 'License:        ISC' >> ucode.spec
-          echo 'URL:            https://ucode.mein.io/' >> ucode.spec
-          echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo 'BuildRequires:  gcc' >> ucode.spec
-          echo 'BuildRequires:  make' >> ucode.spec
-          echo 'BuildRequires:  cmake' >> ucode.spec
-          echo 'BuildRequires:  json-c-devel' >> ucode.spec
-          echo 'BuildRequires:  texinfo' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%description' >> ucode.spec
-          echo 'The ucode language is a small, general-purpose scripting language that' >> ucode.spec
-          echo 'resembles ECMAScript syntax. It can be used as a standalone interpreter or' >> ucode.spec
-          echo 'embedded into host applications. Ucode supports template mode with control flow' >> ucode.spec
-          echo 'and expression logic statements embedded in Jinja-like markup blocks.' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo 'Initially intended as a template processor, ucode evolved into a versatile' >> ucode.spec
-          echo 'scripting language for various system scripting tasks. Its design goals include' >> ucode.spec
-          echo 'easy integration with C applications, efficient handling of JSON data and' >> ucode.spec
-          echo 'complex data structures, support for OpenWrt's ubus message bus system, and a' >> ucode.spec
-          echo 'comprehensive set of built-in functions inspired by Perl 5.' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%package    -n libucode' >> ucode.spec
-          echo 'Summary:    Shared library files for ucode' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%description -n libucode' >> ucode.spec
-          echo 'This package contains the compiled shared libraries for ucode.' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%package    -n libucode-devel' >> ucode.spec
-          echo 'Summary:    Development files for ucode' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%description -n libucode-devel' >> ucode.spec
-          echo 'This package contains libraries and header files for developing applications' >> ucode.spec
-          echo 'that use ucode.' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%prep' >> ucode.spec
-          echo '%autosetup' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%build' >> ucode.spec
-          echo '%cmake -DUBUS_SUPPORT=OFF \' >> ucode.spec
-          echo '    -DUCI_SUPPORT=OFF \' >> ucode.spec
-          echo '    -DULOOP_SUPPORT=OFF \' >> ucode.spec
-          echo '    -DCMAKE_BUILD_TYPE=Release' >> ucode.spec
-          echo '%cmake_build' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%install' >> ucode.spec
-          echo '%cmake_install' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%files' >> ucode.spec
-          echo '%{_bindir}/ucc' >> ucode.spec
-          echo '%{_bindir}/ucode' >> ucode.spec
-          echo '%{_bindir}/utpl' >> ucode.spec
-          echo '%doc README.md' >> ucode.spec
-          echo '%license LICENSE' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%files  -n libucode' >> ucode.spec
-          echo '%{_prefix}/lib/libucode.so' >> ucode.spec
-          echo '%{_prefix}/lib/libucode.so.0' >> ucode.spec
-          echo '%{_prefix}/lib/ucode/debug.so' >> ucode.spec
-          echo '%{_prefix}/lib/ucode/fs.so' >> ucode.spec
-          echo '%{_prefix}/lib/ucode/log.so' >> ucode.spec
-          echo '%{_prefix}/lib/ucode/math.so' >> ucode.spec
-          echo '%{_prefix}/lib/ucode/resolv.so' >> ucode.spec
-          echo '%{_prefix}/lib/ucode/struct.so' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%files  -n libucode-devel' >> ucode.spec
-          echo '%{_includedir}/ucode/chunk.h' >> ucode.spec
-          echo '%{_includedir}/ucode/compiler.h' >> ucode.spec
-          echo '%{_includedir}/ucode/lexer.h' >> ucode.spec
-          echo '%{_includedir}/ucode/lib.h' >> ucode.spec
-          echo '%{_includedir}/ucode/module.h' >> ucode.spec
-          echo '%{_includedir}/ucode/platform.h' >> ucode.spec
-          echo '%{_includedir}/ucode/program.h' >> ucode.spec
-          echo '%{_includedir}/ucode/source.h' >> ucode.spec
-          echo '%{_includedir}/ucode/types.h' >> ucode.spec
-          echo '%{_includedir}/ucode/util.h' >> ucode.spec
-          echo '%{_includedir}/ucode/vallist.h' >> ucode.spec
-          echo '%{_includedir}/ucode/vm.h' >> ucode.spec
-          echo ' ' >> ucode.spec
-          echo '%changelog' >> ucode.spec
-          echo '%autochangelog' >> ucode.spec
+          OUTFILE="ucode.spec"
+          echo 'Release:        %autorelease' >> $OUTFILE
+          echo 'Summary:        JavaScript-like language with optional templating' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo 'License:        ISC' >> $OUTFILE
+          echo 'URL:            https://ucode.mein.io/' >> $OUTFILE
+          echo 'Source:         https://github.com/jow-/ucode/archive/refs/tags/v%{version}.tar.gz' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo 'BuildRequires:  gcc' >> $OUTFILE
+          echo 'BuildRequires:  make' >> $OUTFILE
+          echo 'BuildRequires:  cmake' >> $OUTFILE
+          echo 'BuildRequires:  json-c-devel' >> $OUTFILE
+          echo 'BuildRequires:  texinfo' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%description' >> $OUTFILE
+          echo 'The ucode language is a small, general-purpose scripting language that' >> $OUTFILE
+          echo 'resembles ECMAScript syntax. It can be used as a standalone interpreter or' >> $OUTFILE
+          echo 'embedded into host applications. Ucode supports template mode with control flow' >> $OUTFILE
+          echo 'and expression logic statements embedded in Jinja-like markup blocks.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo 'Initially intended as a template processor, ucode evolved into a versatile' >> $OUTFILE
+          echo 'scripting language for various system scripting tasks. Its design goals include' >> $OUTFILE
+          echo 'easy integration with C applications, efficient handling of JSON data and' >> $OUTFILE
+          echo 'complex data structures, support for OpenWrt'\''s ubus message bus system, and a' >> $OUTFILE
+          echo 'comprehensive set of built-in functions inspired by Perl 5.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%package    -n libucode' >> $OUTFILE
+          echo 'Summary:    Shared library files for ucode' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%description -n libucode' >> $OUTFILE
+          echo 'This package contains the compiled shared libraries for ucode.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%package    -n libucode-devel' >> $OUTFILE
+          echo 'Summary:    Development files for ucode' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%description -n libucode-devel' >> $OUTFILE
+          echo 'This package contains libraries and header files for developing applications' >> $OUTFILE
+          echo 'that use ucode.' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%prep' >> $OUTFILE
+          echo '%autosetup' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%build' >> $OUTFILE
+          echo '%cmake -DUBUS_SUPPORT=OFF \' >> $OUTFILE
+          echo '    -DUCI_SUPPORT=OFF \' >> $OUTFILE
+          echo '    -DULOOP_SUPPORT=OFF \' >> $OUTFILE
+          echo '    -DCMAKE_BUILD_TYPE=Release' >> $OUTFILE
+          echo '%cmake_build' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%install' >> $OUTFILE
+          echo '%cmake_install' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%files' >> $OUTFILE
+          echo '%{_bindir}/ucc' >> $OUTFILE
+          echo '%{_bindir}/ucode' >> $OUTFILE
+          echo '%{_bindir}/utpl' >> $OUTFILE
+          echo '%doc README.md' >> $OUTFILE
+          echo '%license LICENSE' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%files  -n libucode' >> $OUTFILE
+          echo '%{_prefix}/lib/libucode.so' >> $OUTFILE
+          echo '%{_prefix}/lib/libucode.so.0' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/debug.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/fs.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/log.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/math.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/resolv.so' >> $OUTFILE
+          echo '%{_prefix}/lib/ucode/struct.so' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%files  -n libucode-devel' >> $OUTFILE
+          echo '%{_includedir}/ucode/chunk.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/compiler.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/lexer.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/lib.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/module.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/platform.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/program.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/source.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/types.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/util.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/vallist.h' >> $OUTFILE
+          echo '%{_includedir}/ucode/vm.h' >> $OUTFILE
+          echo ' ' >> $OUTFILE
+          echo '%changelog' >> $OUTFILE
+          echo '%autochangelog' >> $OUTFILE
 
       - name: Build package
         run: |
