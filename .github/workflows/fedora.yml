@@ -23,8 +23,10 @@ jobs:
 
       - name: Render version in .spec file
         run: |
+          cd ucode/
           export GITVERSION=$(git describe --long --tags)
           export DEBVERSION=${GITVERSION#v}
+          cd ..
           echo "Name:           ucode" > ucode.spec
           echo "Version:        ${GITVERSION#v}" >> ucode.spec
 
